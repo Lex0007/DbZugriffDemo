@@ -5,7 +5,8 @@ import java.sql.*;
 public class App {
     public static void main(String[] args) {
         selectAll();
-        insertStudent("Markus", "PS5 spielen");
+        //insertHobbies("Markus", "PS5 spielen");
+        updateHobbies(3, "Markus Gruen", "Fußball spielen");
         selectAll();
 
     }
@@ -33,7 +34,7 @@ public class App {
 
     }
 
-    public static void insertStudent(String mitschueler, String hobby) {
+    public static void insertHobbies(String mitschueler, String hobby) {
         System.out.println("Insert mit JDBC");
 
         String connectionUrl = "jdbc:mysql://127.0.0.1:3306/jdbc_aa2";
@@ -55,6 +56,37 @@ public class App {
             }
 
         } catch (SQLException e) {
+            System.out.println("Fehler beim Aufbau der Verbindung zur DB: " + e.getMessage());
+        }
+    }
+
+    public static void updateHobbies(int id, String neuerMitschueler, String neuesHobby) {
+        System.out.println("Update mit JDBC");
+
+        String connectionUrl = "jdbc:mysql://127.0.0.1:3306/jdbc_aa2";
+        String user = "root";
+        String pwd = "";
+
+        try (Connection conn = DriverManager.getConnection(connectionUrl, user, pwd);)
+        {
+            System.out.println("Verbindung zur DB hergestellt!");
+            PreparedStatement preparedStatement = conn.prepareStatement(
+                    "UPDATE hobbies SET mitschueler = ?, hobby = ? WHERE hobbies.id = ?"
+            );
+            try
+            {
+                preparedStatement.setString(1, neuerMitschueler);
+                preparedStatement.setString(2, neuesHobby);
+                preparedStatement.setInt(3, id);
+                int affectedRows = preparedStatement.executeUpdate();
+                System.out.println("Anzahl der aktualisierten Datensätze: " + affectedRows);
+            } catch (SQLException ex)
+            {
+                System.out.println("Fehler im SQL-UPDATE Statement: " + ex.getMessage());
+            }
+
+        } catch (SQLException e)
+        {
             System.out.println("Fehler beim Aufbau der Verbindung zur DB: " + e.getMessage());
         }
     }
