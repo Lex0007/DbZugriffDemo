@@ -5,11 +5,11 @@ import java.sql.*;
 public class Main {
     public static void main(String[] args) {
         //INSERT INTO `student` (`id`, `name`, `email`) VALUES (NULL, 'Alexander Klapeer', 'alklapeer@tsn.at'), (NULL, 'maria könne', 'maria.koenne@myimst.at');
-//        selectAllDemo();
-//        insertStudentDemo("Name des Studenten", "Email@prov.at");
-//        updateStudentDemo(4, "Neuer Name", "neueemail@provider.at");
-//        deletStudentDemo(5);
-//        selectAllDemo();
+        selectAllDemo();
+        insertStudentDemo("Name des Studenten", "Email@prov.at");
+        updateStudentDemo(4, "Neuer Name", "neueemail@provider.at");
+        deletStudentDemo(5);
+        selectAllDemo();
         findAllByNameLike("and");
 
 
