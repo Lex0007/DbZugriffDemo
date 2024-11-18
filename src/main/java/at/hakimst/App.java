@@ -6,7 +6,8 @@ public class App {
     public static void main(String[] args) {
         selectAll();
         //insertHobbies("Markus", "PS5 spielen");
-        updateHobbies(3, "Markus Gruen", "Fußball spielen");
+        //updateHobbies(3, "Markus Gruen", "Fußball spielen");
+        deletHobbies(3);
         selectAll();
 
     }
@@ -83,6 +84,35 @@ public class App {
             } catch (SQLException ex)
             {
                 System.out.println("Fehler im SQL-UPDATE Statement: " + ex.getMessage());
+            }
+
+        } catch (SQLException e)
+        {
+            System.out.println("Fehler beim Aufbau der Verbindung zur DB: " + e.getMessage());
+        }
+    }
+
+    public static void deletHobbies(int hobbyId){
+        System.out.println("DELETE mit JDBC");
+
+        String connectionUrl = "jdbc:mysql://127.0.0.1:3306/jdbc_aa2";
+        String user = "root";
+        String pwd = "";
+
+        try (Connection conn = DriverManager.getConnection(connectionUrl, user, pwd);)
+        {
+            System.out.println("Verbindung zur DB hergestellt!");
+            PreparedStatement preparedStatement = conn.prepareStatement(
+                    "DELETE FROM hobbies WHERE hobbies.id = ?"
+            );
+            try
+            {
+                preparedStatement.setInt(1, hobbyId);
+                int rowAffected = preparedStatement.executeUpdate();
+                System.out.println("Anzahl der gelöschten Datensätze: " + rowAffected);
+            } catch (SQLException ex)
+            {
+                System.out.println("Fehler im SQL-DELETE Statement: " + ex.getMessage());
             }
 
         } catch (SQLException e)
