@@ -7,7 +7,8 @@ public class App {
         selectAll();
         //insertHobbies("Markus", "PS5 spielen");
         //updateHobbies(3, "Markus Gruen", "Fußball spielen");
-        deletHobbies(3);
+        //deletHobbies(3);
+        findAllByNameLike("o");
         selectAll();
 
     }
@@ -115,6 +116,33 @@ public class App {
                 System.out.println("Fehler im SQL-DELETE Statement: " + ex.getMessage());
             }
 
+        } catch (SQLException e)
+        {
+            System.out.println("Fehler beim Aufbau der Verbindung zur DB: " + e.getMessage());
+        }
+    }
+
+    private static void findAllByNameLike(String pattern) {
+        System.out.println("Find all by Name mit JDBC");
+
+        String connectionUrl = "jdbc:mysql://127.0.0.1:3306/jdbc_aa2";
+        String user = "root";
+        String pwd = "";
+
+        try (Connection conn = DriverManager.getConnection(connectionUrl, user, pwd);)
+        {
+            System.out.println("Verbindung zur DB hergestellt!");
+            PreparedStatement preparedStatement = conn.prepareStatement(
+                    "SELECT * FROM hobbies WHERE hobbies.mitschueler LIKE ?"
+            );
+            preparedStatement.setString(1, "%" + pattern + "%");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                int id = rs.getInt("id");
+                String mitschueler = rs.getString("mitschueler");
+                String hobby = rs.getString("hobby");
+                System.out.println("Student aus der DB; [ID] " + id + " [NAME] " + mitschueler + " [HOBBY] " + hobby);
+            }
         } catch (SQLException e)
         {
             System.out.println("Fehler beim Aufbau der Verbindung zur DB: " + e.getMessage());
