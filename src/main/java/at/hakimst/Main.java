@@ -10,7 +10,7 @@ public class Main {
 //        updateStudentDemo(4, "Neuer Name", "neueemail@provider.at");
 //        deletStudentDemo(5);
 //        selectAllDemo();
-        findAllByNameLike("land");
+        findAllByNameLike("and");
 
 
 //        try {
